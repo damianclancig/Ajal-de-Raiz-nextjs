@@ -1,16 +1,28 @@
 import AddToCart from '@/components/products/AddToCart'
-import data from '@/lib/data'
+import { convertDocToObj } from '@/lib/utils'
+import productService from '@/lib/services/productService'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function ProductDetails({ params }: { params: { slug: string } }) {
-  const product = data.products.find((p) => p.slug === params.slug)
-  if (!product) return <div>Product not found</div>
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const product = await productService.getBySlug(params.slug)
+  if (!product) {
+    return { title: 'Producto no encontrado' }
+  }
+  return {
+    title: product.name,
+    description: product.description,
+  }
+}
+
+export default async function ProductDetails({ params }: { params: { slug: string } }) {
+  const product = await productService.getBySlug(params.slug)
+  if (!product) return <div>Producto no encontrado</div>
 
   return (
     <>
       <div className="my-2">
-        <Link href="/">Back to products</Link>
+        <Link href="/">Volver a Inicio</Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
@@ -53,7 +65,7 @@ export default function ProductDetails({ params }: { params: { slug: string } })
               </div>
               {product.countInStock !== 0 && (
                 <div className="card-actions justify-center">
-                  <AddToCart item={{ ...product, qty: 0, color: '', size: '' }} />
+                  <AddToCart item={{ ...convertDocToObj(product), qty: 0, color: '', size: '' }} />
                 </div>
               )}
             </div>

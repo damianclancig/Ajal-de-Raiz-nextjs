@@ -6,8 +6,8 @@ import Header from '@/components/header/Header'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Ajal de Raiz',
-  description: 'Tienda de plantas y suculentas.',
+  title: process.env.PUBLIC_APP_NAME || 'Ajal de Raiz',
+  description: process.env.PUBLIC_APP_DESC || 'Tienda de plantas y suculentas.',
 }
 
 export default function RootLayout({

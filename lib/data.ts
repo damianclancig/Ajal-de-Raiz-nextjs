@@ -1,4 +1,20 @@
+import bcrypt from 'bcryptjs'
+
 const data = {
+  users: [
+    {
+      name: 'Damián',
+      email: 'dami@clan.com.ar',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: true,
+    },
+    {
+      name: 'Mayra',
+      email: 'may@clan.com.ar',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
       name: 'Monstera',
@@ -12,7 +28,7 @@ const data = {
       countInStock: 20,
       description: 'Suculenta Monstera en musgo n° 10',
       isFeatured: true,
-      banner: '/images/banner1.jpg,',
+      banner: '/images/banner1.png',
     },
     {
       name: 'kokedama potus',
@@ -26,7 +42,7 @@ const data = {
       countInStock: 10,
       description: 'Un lindo kokedama hecho con musgo barba de viejo y planta potus verde',
       isFeatured: true,
-      banner: '/images/banner1.jpg,',
+      banner: '/images/banner2.png',
     },
     {
       name: 'Trebol oxalis',
@@ -52,7 +68,7 @@ const data = {
       numReviews: 30,
       countInStock: 50,
       description: 'La mejor planta que puedes tener en el interior.',
-      isFeatured: true,
+      isFeatured: false,
     },
     {
       name: 'Cactus y suculentas',
