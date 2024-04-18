@@ -1,5 +1,6 @@
 'use client'
 import { signIn, useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -94,6 +95,14 @@ const Form = () => {
             </button>
           </div>
         </form>
+        <div className="divider"></div>
+
+        <div>
+          ¿Necesita una cuenta?{' '}
+          <Link className="link" href={`/register?callbackUrl=${callbackUrl}`}>
+            Registarse
+          </Link>
+        </div>
       </div>
     </div>
   )
