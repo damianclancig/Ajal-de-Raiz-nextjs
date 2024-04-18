@@ -1,6 +1,10 @@
 export { auth as middleware } from './lib/auth'
 
 export const config = {
+  unstable_allowDynamic: [
+    // allows a single file
+    '/lib/dbConnect.js',
+  ],
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
