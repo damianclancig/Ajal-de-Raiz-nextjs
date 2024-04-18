@@ -1,6 +1,6 @@
 'use client'
 
-import useCartServices from '@/lib/hooks/useCartStore'
+import useCartService from '@/lib/hooks/useCartStore'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 export default function CartDetails() {
   const router = useRouter()
-  const { items, itemsPrice, decrease, increase } = useCartServices()
+  const { items, itemsPrice, decrease, increase } = useCartService()
 
   const [mounted, setMounted] = useState(false)
   useEffect(() => {

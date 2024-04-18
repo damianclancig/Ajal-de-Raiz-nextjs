@@ -1,13 +1,13 @@
 'use client'
 
-import useCartServices from '@/lib/hooks/useCartStore'
+import useCartService from '@/lib/hooks/useCartStore'
 import { OrderItem } from '@/lib/models/OrderModel'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function AddToCart({ item }: { item: OrderItem }) {
   const router = useRouter()
-  const { items, increase, decrease } = useCartServices()
+  const { items, increase, decrease } = useCartService()
   const [existItem, setExistItem] = useState<OrderItem | undefined>()
 
   useEffect(() => {
