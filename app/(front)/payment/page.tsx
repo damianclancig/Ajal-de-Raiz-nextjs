@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import Form from './Form'
 
 export const metadata: Metadata = {
-  title: 'Dirección de envío',
+  title: 'Métodos de pago',
 }
-
-export default function Shipping() {
+const page = () => {
   return <Form />
 }
+export default page

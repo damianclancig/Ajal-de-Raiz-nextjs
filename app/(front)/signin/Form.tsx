@@ -78,7 +78,7 @@ const Form = () => {
               Contraseña
             </label>
             <input
-              type="text"
+              type="password"
               id="password"
               {...register('password', {
                 required: 'La contraseña es obligatorio.',
