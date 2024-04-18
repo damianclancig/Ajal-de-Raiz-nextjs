@@ -4,6 +4,8 @@ export const config = {
   unstable_allowDynamic: [
     // allows a single file
     './lib/dbConnect.ts',
+    './lib/auth.ts',
+    './middleware.ts',
   ],
   matcher: [
     /*
