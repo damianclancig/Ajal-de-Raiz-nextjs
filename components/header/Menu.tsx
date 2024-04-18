@@ -10,7 +10,7 @@ export default function Menu() {
 
   useEffect(() => {
     setMounted(true)
-  })
+  }, [])
 
   const signoutHandler = () => {
     signOut({ callbackUrl: '/' })

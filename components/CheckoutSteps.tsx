@@ -3,7 +3,9 @@ const CheckoutSteps = ({ current = 0 }) => {
     <ul className="steps steps-vertical lg:steps-horizontal w-full mt-4">
       {['Inicio de sesión', 'Dirección de envío', 'Métodos de pago', 'Realizar pedido'].map(
         (step, index) => (
-          <li className={`step ${index <= current ? 'step-primary' : ''}`}>{step}</li>
+          <li key={index} className={`step ${index <= current ? 'step-primary' : ''}`}>
+            {step}
+          </li>
         )
       )}
     </ul>
