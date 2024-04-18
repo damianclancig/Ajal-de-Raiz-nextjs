@@ -1,11 +1,11 @@
 'use client'
-import useCartServices from '@/lib/hooks/useCartStore'
+import useCartService from '@/lib/hooks/useCartStore'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Menu() {
-  const { items } = useCartServices()
+  const { items } = useCartService()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
