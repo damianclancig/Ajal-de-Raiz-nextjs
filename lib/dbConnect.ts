@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-async function dbConnet() {
+const dbConnet = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI!)
   } catch (error) {
