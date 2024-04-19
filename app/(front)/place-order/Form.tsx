@@ -138,7 +138,7 @@ const Form = () => {
       <div>
         <div className="card bg-base-300">
           <div className="card-body">
-            <h2 className="card-title">Detalle del pedido</h2>
+            <h2 className="card-title">Resumen del pedido</h2>
             <ul className="space-y-3">
               <li>
                 <div className=" flex justify-between">
