@@ -53,6 +53,9 @@ export default function Menu() {
                 </label>
                 <ul className="menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52">
                   <li>
+                    <Link href="/profile">Profile</Link>
+                  </li>
+                  <li>
                     <Link href={'/order-history'}>Mis pedidos</Link>
                   </li>
                   <li>
