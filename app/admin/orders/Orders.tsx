@@ -5,7 +5,7 @@ import useSWR from 'swr'
 
 export default function Orders() {
   const { data: orders, error } = useSWR(`/api/admin/orders`)
-  if (error) return 'Ocurrió un error'
+  if (error) return 'Ha ocurrido un error'
   if (!orders) return 'Cargando...'
 
   return (
