@@ -34,4 +34,4 @@ export const PUT = auth(async (req) => {
       }
     )
   }
-})
+}) as any
