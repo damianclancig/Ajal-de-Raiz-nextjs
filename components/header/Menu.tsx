@@ -85,6 +85,11 @@ export default function Menu() {
                   <li>
                     <Link href={'/order-history'}>Mis pedidos</Link>
                   </li>
+                  {session.user.isAdmin && (
+                    <li>
+                      <Link href="/admin/dashboard">Administración</Link>
+                    </li>
+                  )}
                   <li>
                     <button type="button" onClick={signoutHandler}>
                       Cerrar sesión
