@@ -7,8 +7,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
+import useSWRMutation from 'swr/mutation'
 
 const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClientId: string }) => {
+  const { trigger: deliverOrder, isMutating: isDelivering } = useSWRMutation(
+    `api/orders/${orderId}`,
+    async (url) => {
+      const res = await fetch(`/api/admin/orders/${orderId}/deliver`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await res.json()
+      res.ok ? toast.success('El pedido fue enviado') : toast.error(data.message)
+    }
+  )
+
   const { data: session } = useSession()
 
   function createPayPalOrder() {
@@ -32,14 +47,14 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
     })
       .then((response) => response.json())
       .then((orderData) => {
-        toast.success('Order paid successfully')
+        toast.success('El pedido fue pagado correctamente.')
       })
   }
 
   const { data, error } = useSWR(`/api/orders/${orderId}`)
 
   if (error) return error.message
-  if (!data) return 'Loading...'
+  if (!data) return 'Cargando...'
 
   const {
     paymentMethod,
@@ -160,7 +175,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                     </PayPalScriptProvider>
                   </li>
                 )}
-                {/* {session?.user.isAdmin && (
+                {session?.user.isAdmin && !isDelivered && (
                   <li>
                     <button
                       className="btn w-full my-2"
@@ -168,10 +183,10 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                       disabled={isDelivering}
                     >
                       {isDelivering && <span className="loading loading-spinner"></span>}
-                      Mark as delivered
+                      Marcar como enviado
                     </button>
                   </li>
-                )} */}
+                )}
               </ul>
             </div>
           </div>
