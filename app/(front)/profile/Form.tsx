@@ -4,7 +4,6 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { getError } from '@/lib/utils'
 
 type Inputs = {
   name: string
