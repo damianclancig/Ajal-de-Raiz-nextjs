@@ -1,6 +1,7 @@
 'use client'
 
 import { OrderItem } from '@/lib/models/OrderModel'
+import { formatCurrency } from '@/lib/utils'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -126,7 +127,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                         </Link>
                       </td>
                       <td>{item.qty}</td>
-                      <td>$ {item.price}</td>
+                      <td>{formatCurrency(item.price)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -143,25 +144,25 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Productos</div>
-                    <div>$ {itemsPrice}</div>
+                    <div>{formatCurrency(itemsPrice)}</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Impuestos</div>
-                    <div>$ {taxPrice}</div>
+                    <div>{formatCurrency(taxPrice)}</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Envío</div>
-                    <div>$ {shippingPrice}</div>
+                    <div>{formatCurrency(shippingPrice)}</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Total</div>
-                    <div>$ {totalPrice}</div>
+                    <div>{formatCurrency(totalPrice)}</div>
                   </div>
                 </li>
 

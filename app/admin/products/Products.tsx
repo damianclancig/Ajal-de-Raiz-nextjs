@@ -1,6 +1,6 @@
 'use client'
 import { Product } from '@/lib/models/ProductModel'
-import { formatId } from '@/lib/utils'
+import { formatCurrency, formatId } from '@/lib/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -84,7 +84,7 @@ export default function Products() {
               <tr key={product._id}>
                 <td>{formatId(product._id)}</td>
                 <td>{product.name}</td>
-                <td>$ {product.price}</td>
+                <td>{formatCurrency(product.price)}</td>
                 <td>{product.category}</td>
                 <td>{product.countInStock}</td>
                 <td>{product.rating}</td>

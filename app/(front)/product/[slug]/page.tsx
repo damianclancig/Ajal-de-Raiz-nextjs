@@ -1,5 +1,5 @@
 import AddToCart from '@/components/products/AddToCart'
-import { convertDocToObj } from '@/lib/utils'
+import { convertDocToObj, formatCurrency } from '@/lib/utils'
 import productService from '@/lib/services/productService'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -57,7 +57,7 @@ export default async function ProductDetails({ params }: { params: { slug: strin
             <div className="card-body">
               <div className="mb-2 flex justify-between">
                 <div>Precio</div>
-                <div>$ {product.price}</div>
+                <div>{formatCurrency(product.price)}</div>
               </div>
               <div className="mb-2 flex justify-between">
                 <div>Estado</div>

@@ -1,5 +1,6 @@
 'use client'
 import { Order } from '@/lib/models/OrderModel'
+import { formatCurrency } from '@/lib/utils'
 import Link from 'next/link'
 import useSWR from 'swr'
 
@@ -16,12 +17,12 @@ export default function Orders() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>USUARIO</th>
-              <th>FECHA</th>
-              <th>TOTAL</th>
-              <th>PAGADO</th>
-              <th>ENVIADO</th>
-              <th>ACCIÓN</th>
+              <th>Usuario</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Pagado</th>
+              <th>Enviado</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
@@ -30,7 +31,7 @@ export default function Orders() {
                 <td>...{order._id.substring(20, 24)}</td>
                 <td>{order.user?.name || 'Usuario eliminado'}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
-                <td>$ {order.totalPrice}</td>
+                <td>{formatCurrency(order.totalPrice)}</td>
                 <td>
                   {order.isPaid && order.paidAt ? `${order.paidAt.substring(0, 10)}` : 'Pendiente'}
                 </td>
