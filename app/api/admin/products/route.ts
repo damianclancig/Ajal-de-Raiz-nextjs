@@ -25,27 +25,31 @@ export const POST = auth(async (req: any) => {
       }
     )
   }
-  await dbConnect()
-  const product = new ProductModel({
-    name: 'sample name',
-    slug: 'sample-name-' + Math.random(),
-    image: '/images/image.jpg',
-    price: 0,
-    category: 'sample category',
-    brand: 'sample brand',
-    countInStock: 0,
-    description: 'sample description',
-    rating: 0,
-    numReviews: 0,
-  })
+  const { name, slug, price, category, image, brand, countInStock, description } = await req.json()
   try {
-    await product.save()
-    return Response.json(
-      { message: 'Producto creado.', product },
-      {
-        status: 201,
-      }
-    )
+    await dbConnect()
+    let product = await ProductModel.findOne({ slug: slug })
+    if (!product) {
+      product = new ProductModel({
+        name: name,
+        slug: slug + Math.random(),
+        image: image,
+        price: price,
+        category: category,
+        brand: brand,
+        countInStock: countInStock,
+        description: description,
+        rating: 0,
+        numReviews: 0,
+      })
+      await product.save()
+      return Response.json(
+        { message: 'Producto creado.', product },
+        {
+          status: 201,
+        }
+      )
+    }
   } catch (err: any) {
     return Response.json(
       { message: err.message },

@@ -56,14 +56,9 @@ export default function Products() {
     <div>
       <div className="flex justify-between items-center">
         <h1 className="py-4 text-2xl">Productos</h1>
-        <button
-          disabled={isCreating}
-          onClick={() => createProduct()}
-          className="btn btn-primary btn-sm"
-        >
-          {isCreating && <span className="loading loading-spinner"></span>}
+        <Link href={`/admin/products/new`} type="button" className="btn btn-primary btn-sm">
           Crear
-        </button>
+        </Link>
       </div>
 
       <div className="overflow-x-auto">
