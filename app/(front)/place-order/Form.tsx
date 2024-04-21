@@ -1,6 +1,7 @@
 'use client'
 import CheckoutSteps from '@/components/CheckoutSteps'
 import useCartService from '@/lib/hooks/useCartStore'
+import { formatCurrency } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -121,7 +122,7 @@ const Form = () => {
                       <td>
                         <span>{item.qty}</span>
                       </td>
-                      <td>$ {item.price}</td>
+                      <td>{formatCurrency(item.price)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -143,25 +144,25 @@ const Form = () => {
               <li>
                 <div className=" flex justify-between">
                   <div>Productos</div>
-                  <div>$ {itemsPrice}</div>
+                  <div>{formatCurrency(itemsPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className=" flex justify-between">
                   <div>Impuestos</div>
-                  <div>$ {taxPrice}</div>
+                  <div>{formatCurrency(taxPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className=" flex justify-between">
                   <div>Envío</div>
-                  <div>$ {shippingPrice}</div>
+                  <div>{formatCurrency(shippingPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className=" flex justify-between">
                   <div>Total</div>
-                  <div>$ {totalPrice}</div>
+                  <div>{formatCurrency(totalPrice)}</div>
                 </div>
               </li>
 

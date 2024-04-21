@@ -1,6 +1,7 @@
 'use client'
 
 import useCartService from '@/lib/hooks/useCartStore'
+import { formatCurrency } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -52,7 +53,7 @@ export default function CartDetails() {
                         +
                       </button>
                     </td>
-                    <td>$ {item.price}</td>
+                    <td>{formatCurrency(item.price)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -64,7 +65,8 @@ export default function CartDetails() {
                 <ul>
                   <li>
                     <div className="pb-3 text-xl">
-                      Subtotal ({items.reduce((a, c) => a + c.qty, 0)}) : $ {itemsPrice}
+                      Subtotal ({items.reduce((a, c) => a + c.qty, 0)}):{' '}
+                      {formatCurrency(itemsPrice)}
                     </div>
                   </li>
                   <li>

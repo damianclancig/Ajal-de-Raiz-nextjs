@@ -11,10 +11,13 @@
   "dependencies": {
     "@paypal/react-paypal-js": "^8.2.0",
     "bcryptjs": "^2.4.3",
+    "chart.js": "^4.4.2",
+    "cloudinary": "^2.1.0",
     "mongoose": "^8.3.2",
     "next": "14.2.2",
     "next-auth": "5.0.0-beta.16",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "react-hot-toast": "^2.4.1",
