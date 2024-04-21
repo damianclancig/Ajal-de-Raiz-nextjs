@@ -13,7 +13,7 @@ export default function Products() {
 
   const { trigger: deleteProduct } = useSWRMutation(
     `/api/admin/products`,
-    async (url, { arg }: { arg: { productId: string } }) => {
+    async (url, { arg }: { arg: { productId: string | undefined } }) => {
       const toastId = toast.loading('Eliminando producto...')
       const res = await fetch(`${url}/${arg.productId}`, {
         method: 'DELETE',

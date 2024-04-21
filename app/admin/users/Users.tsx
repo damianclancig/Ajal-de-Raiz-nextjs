@@ -13,7 +13,7 @@ export default function Users() {
 
   const { trigger: deleteUser } = useSWRMutation(
     `/api/admin/users`,
-    async (url, { arg }: { arg: { userId: string } }) => {
+    async (url, { arg }: { arg: { userId: string | undefined } }) => {
       const toastId = toast.loading('Eliminando usuario...')
       const res = await fetch(`${url}/${arg.userId}`, {
         method: 'DELETE',

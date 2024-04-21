@@ -12,7 +12,7 @@ const MyOrders = () => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
-  })
+  }, [])
   if (!mounted) return <></>
 
   if (error) return 'Ha ocurrido un error'
