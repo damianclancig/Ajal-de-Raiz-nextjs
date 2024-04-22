@@ -80,7 +80,7 @@ const Form = () => {
                 {shippingAddress.country}{' '}
               </p>
               <div>
-                <Link className="btn" href="/shipping">
+                <Link className="btn btn-outline" href="/shipping">
                   Cambiar
                 </Link>
               </div>
@@ -91,7 +91,7 @@ const Form = () => {
               <h2 className="card-title">Método de pago</h2>
               <p>{paymentMethod}</p>
               <div>
-                <Link className="btn" href="/payment">
+                <Link className="btn btn-outline" href="/payment">
                   Cambiar
                 </Link>
               </div>
@@ -112,7 +112,10 @@ const Form = () => {
                   {items.map((item) => (
                     <tr key={item.slug}>
                       <td>
-                        <Link href={`/product/${item.slug}`} className="flex items-center">
+                        <Link
+                          href={`/product/${item.slug}?backTo=placeOrder`}
+                          className="flex items-center"
+                        >
                           <Image
                             src={optimizeImage(item.image, 50)}
                             alt={item.name}
@@ -133,7 +136,7 @@ const Form = () => {
                 </tbody>
               </table>
               <div>
-                <Link className="btn" href="/cart">
+                <Link className="btn btn-outline" href="/cart">
                   Cambiar
                 </Link>
               </div>

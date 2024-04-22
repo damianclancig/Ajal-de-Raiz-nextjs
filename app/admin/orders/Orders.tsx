@@ -45,7 +45,7 @@ export default function Orders() {
                     href={`/order/${order._id}?backTo=adminOrders`}
                     passHref
                     type="button"
-                    className="btn btn-ghost btn-sm"
+                    className="btn btn-outline btn-sm"
                   >
                     Detalles
                   </Link>

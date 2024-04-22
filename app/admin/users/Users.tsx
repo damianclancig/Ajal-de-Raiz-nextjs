@@ -61,14 +61,14 @@ export default function Users() {
                   <Link
                     href={`/admin/users/${user._id}`}
                     type="button"
-                    className="btn btn-ghost btn-sm"
+                    className="btn btn-outline btn-sm mb-2 md:mb-0 mr-2"
                   >
                     Editar
                   </Link>
                   <button
                     onClick={() => deleteUser({ userId: user._id })}
                     type="button"
-                    className="btn btn-ghost btn-sm"
+                    className="btn btn-outline btn-error btn-sm"
                   >
                     Eliminar
                   </button>
