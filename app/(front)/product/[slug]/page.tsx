@@ -1,12 +1,11 @@
 import AddToCart from '@/components/products/AddToCart'
 import { convertDocToObj, formatCurrency, optimizeImage } from '@/lib/utils'
-import productService from '@/lib/services/productService'
+import productServices from '@/lib/services/productServices'
 import Image from 'next/image'
-import Link from 'next/link'
 import { BackButton } from '@/components/BackButton'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const product = await productService.getBySlug(params.slug)
+  const product = await productServices.getBySlug(params.slug)
   if (!product) {
     return { title: 'Producto no encontrado' }
   }
@@ -23,7 +22,7 @@ export default async function ProductDetails({
   params: { slug: string }
   searchParams: { backTo: string; orderId: number }
 }) {
-  const product = await productService.getBySlug(params.slug)
+  const product = await productServices.getBySlug(params.slug)
   if (!product) return <div>Producto no encontrado</div>
 
   const linkBack = () => {

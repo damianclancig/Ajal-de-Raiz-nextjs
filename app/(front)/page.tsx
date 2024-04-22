@@ -1,5 +1,5 @@
 import ProductItem from '@/components/products/ProductItem'
-import productService from '@/lib/services/productService'
+import productServices from '@/lib/services/productServices'
 import { convertDocToObj } from '@/lib/utils'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const featuredProducts = await productService.getFeatured()
-  const latestProducts = await productService.getLatest()
+  const featuredProducts = await productServices.getFeatured()
+  const latestProducts = await productServices.getLatest()
 
   return (
     <>
