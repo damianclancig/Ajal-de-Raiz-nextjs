@@ -1,6 +1,7 @@
 'use client'
 import { Product } from '@/lib/models/ProductModel'
-import { formatCurrency, formatId } from '@/lib/utils'
+import { formatCurrency, formatId, optimizeImage } from '@/lib/utils'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -29,23 +30,6 @@ export default function Products() {
         : toast.error(data.message, {
             id: toastId,
           })
-    }
-  )
-
-  const { trigger: createProduct, isMutating: isCreating } = useSWRMutation(
-    `/api/admin/products`,
-    async (url) => {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      const data = await res.json()
-      if (!res.ok) return toast.error(data.message)
-
-      toast.success('Producto creado.')
-      router.push(`/admin/products/${data.product._id}`)
     }
   )
 
@@ -78,6 +62,16 @@ export default function Products() {
             {products.map((product: Product) => (
               <tr key={product._id}>
                 <td>{formatId(product._id)}</td>
+                <td>
+                  <Link href={`/product/${product.slug}?backTo=adminProd`}>
+                    <Image
+                      src={optimizeImage(product.image, 50)}
+                      alt={product.name}
+                      width={50}
+                      height={50}
+                    />
+                  </Link>
+                </td>
                 <td>{product.name}</td>
                 <td>{formatCurrency(product.price)}</td>
                 <td>{product.category}</td>

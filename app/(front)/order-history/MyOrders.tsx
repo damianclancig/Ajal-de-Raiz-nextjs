@@ -45,7 +45,12 @@ const MyOrders = () => {
                   : 'Pendiente'}
               </td>
               <td>
-                <Link href={`/order/${order._id}`} passHref>
+                <Link
+                  href={`/order/${order._id}`}
+                  passHref
+                  type="button"
+                  className="btn btn-ghost btn-sm"
+                >
                   Detalles
                 </Link>
               </td>

@@ -1,8 +1,9 @@
 import AddToCart from '@/components/products/AddToCart'
-import { convertDocToObj, formatCurrency } from '@/lib/utils'
+import { convertDocToObj, formatCurrency, optimizeImage } from '@/lib/utils'
 import productService from '@/lib/services/productService'
 import Image from 'next/image'
 import Link from 'next/link'
+import { BackButton } from '@/components/BackButton'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const product = await productService.getBySlug(params.slug)
@@ -15,19 +16,40 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function ProductDetails({ params }: { params: { slug: string } }) {
+export default async function ProductDetails({
+  params,
+  searchParams,
+}: {
+  params: { slug: string }
+  searchParams: { backTo: string; orderId: number }
+}) {
   const product = await productService.getBySlug(params.slug)
   if (!product) return <div>Producto no encontrado</div>
 
+  const linkBack = () => {
+    if (searchParams.backTo === 'adminProd')
+      return <BackButton link="/admin/products" title="Volver a productos" />
+    else if (searchParams.backTo === 'cart')
+      return <BackButton link="/cart" title="Volver al carrito" />
+    else if (searchParams.backTo === 'order')
+      return <BackButton link={`/order/${searchParams.orderId}`} title="Volver al pedido" />
+    else if (searchParams.backTo === 'adminOrder')
+      return (
+        <BackButton
+          link={`/order/${searchParams.orderId}?backTo=adminOrders`}
+          title="Volver al pedido"
+        />
+      )
+    else return <BackButton link="/" title="Volver a inicio" />
+  }
+
   return (
     <>
-      <div className="my-2">
-        <Link href="/">Volver a Inicio</Link>
-      </div>
+      <div className="my-2">{linkBack()} </div>
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
           <Image
-            src={product.image}
+            src={optimizeImage(product.image, 640)}
             alt={product.name}
             width={640}
             height={640}

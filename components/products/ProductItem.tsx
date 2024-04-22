@@ -1,5 +1,5 @@
 import { Product } from '@/lib/models/ProductModel'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, optimizeImage } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -9,7 +9,7 @@ export default function ProductItem({ product }: { product: Product }) {
       <figure>
         <Link href={`/product/${product.slug}`}>
           <Image
-            src={product.image}
+            src={optimizeImage(product.image, 300)}
             alt={product.name}
             width={300}
             height={300}

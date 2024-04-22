@@ -1,16 +1,19 @@
 'use client'
 
+import { BackButton } from '@/components/BackButton'
 import { OrderItem } from '@/lib/models/OrderModel'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, formatDate, optimizeImage } from '@/lib/utils'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 
 const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClientId: string }) => {
+  const backTo = useSearchParams().get('backTo')
   const { trigger: deliverOrder, isMutating: isDelivering } = useSWRMutation(
     `api/orders/${orderId}`,
     async (url) => {
@@ -71,8 +74,18 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
     paidAt,
   } = data
 
+  let paramOrderLink = 'order'
+  const linkBack = () => {
+    if (backTo === 'adminOrders') {
+      paramOrderLink = 'adminOrder'
+      return <BackButton link="/admin/orders" title="Volver a pedidos" />
+    } else return <BackButton link="/order-history" title="Volver a mis pedidos" />
+  }
+
   return (
     <div>
+      <div className="my-2">{linkBack()} </div>
+
       <h1 className="text-2xl py-4">Pedido N° {orderId}</h1>
       <div className="grid md:grid-cols-4 md:gap-5 my-4">
         <div className="md:col-span-3">
@@ -85,7 +98,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                 {shippingAddress.country}{' '}
               </p>
               {isDelivered ? (
-                <div className="text-success">Enviado el {deliveredAt}</div>
+                <div className="text-success">Enviado el {formatDate(deliveredAt)}</div>
               ) : (
                 <div className="text-error">Pendiente de envío</div>
               )}
@@ -97,7 +110,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
               <h2 className="card-title">Método de pago</h2>
               <p>{paymentMethod}</p>
               {isPaid ? (
-                <div className="text-success">Pagado el {paidAt}</div>
+                <div className="text-success">Pagado el {formatDate(paidAt)}</div>
               ) : (
                 <div className="text-error">Pendiente de pago</div>
               )}
@@ -119,8 +132,16 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                   {items.map((item: OrderItem) => (
                     <tr key={item.slug}>
                       <td>
-                        <Link href={`/product/${item.slug}`} className="flex items-center">
-                          <Image src={item.image} alt={item.name} width={50} height={50}></Image>
+                        <Link
+                          href={`/product/${item.slug}?backTo=${paramOrderLink}&orderId=${orderId}`}
+                          className="flex items-center"
+                        >
+                          <Image
+                            src={optimizeImage(item.image, 50)}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          />
                           <span className="px-2">
                             {item.name} ({item.color} {item.size})
                           </span>

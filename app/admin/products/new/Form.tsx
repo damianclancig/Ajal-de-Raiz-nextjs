@@ -51,7 +51,7 @@ export default function ProductNewForm() {
     await createProduct(formData)
   }
   if (error) return error.message
-  if (!product) return 'Loading...'
+  if (!product) return 'Cargando...'
 
   const FormInput = ({
     id,

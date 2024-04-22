@@ -1,7 +1,7 @@
 'use client'
 import CheckoutSteps from '@/components/CheckoutSteps'
 import useCartService from '@/lib/hooks/useCartStore'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, optimizeImage } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -113,7 +113,12 @@ const Form = () => {
                     <tr key={item.slug}>
                       <td>
                         <Link href={`/product/${item.slug}`} className="flex items-center">
-                          <Image src={item.image} alt={item.name} width={50} height={50}></Image>
+                          <Image
+                            src={optimizeImage(item.image, 50)}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          />
                           <span className="px-2">
                             {item.name} ({item.color} {item.size})
                           </span>
