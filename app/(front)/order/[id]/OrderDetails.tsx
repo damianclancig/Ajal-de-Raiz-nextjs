@@ -58,7 +58,12 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
   const { data, error } = useSWR(`/api/orders/${orderId}`)
 
   if (error) return error.message
-  if (!data) return 'Cargando...'
+  if (!data)
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <div className="loading loading-bars loading-lg"></div>
+      </div>
+    )
 
   const {
     paymentMethod,

@@ -48,7 +48,7 @@ const AdminLayout = async ({
             </li>
           </ul>
         </div>
-        <div className="md:col-span-4 px-4">{children} </div>
+        <div className="md:col-span-4 px-4">{children}</div>
       </div>
     </div>
   )

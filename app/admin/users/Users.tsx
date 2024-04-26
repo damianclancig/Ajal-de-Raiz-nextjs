@@ -32,14 +32,19 @@ export default function Users() {
     }
   )
   if (error) return 'Ha ocurrido un error'
-  if (!users) return 'Cargando...'
+  if (!users)
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <div className="loading loading-bars loading-lg"></div>
+      </div>
+    )
 
   return (
     <div>
       <h1 className="py-4 text-2xl">Usuarios</h1>
 
       <div className="overflow-x-auto">
-        <table className="table table-zebra">
+        <table className="table table-zebra bg-base-100">
           <thead>
             <tr>
               <th>ID</th>

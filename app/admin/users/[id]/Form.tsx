@@ -49,7 +49,12 @@ export default function UserEditForm({ userId }: { userId: string }) {
   }
 
   if (error) return error.message
-  if (!data) return 'Cargando...'
+  if (!data)
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <div className="loading loading-bars loading-lg"></div>
+      </div>
+    )
 
   const FormInput = ({
     id,

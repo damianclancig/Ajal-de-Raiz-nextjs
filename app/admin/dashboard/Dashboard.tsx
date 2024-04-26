@@ -45,7 +45,12 @@ const Dashboard = () => {
   const { data: summary, error } = useSWR(`/api/orders/summary`)
 
   if (error) return error.message
-  if (!summary) return 'Cargando...'
+  if (!summary)
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <div className="loading loading-bars loading-lg"></div>
+      </div>
+    )
 
   const salesData = {
     labels: summary.salesData.map((x: { _id: string }) => x._id),

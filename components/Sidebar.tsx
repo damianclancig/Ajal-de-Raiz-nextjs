@@ -15,7 +15,7 @@ const Sidebar = () => {
   }, [])
 
   if (error) return error.message
-  if (!categories) return 'Cargando...'
+  if (!categories) return ''
 
   return (
     <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">

@@ -1,9 +1,11 @@
 'use client'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -63,12 +65,22 @@ const Form = () => {
     } catch (err: any) {
       const msg =
         err.message && err.message.indexOf('E11000') === 0 ? 'El e-mail ya existe.' : err.message
-      toast.error(msg || 'Error')
+      // toast.error(msg || 'Error')
+      toast.custom(() => (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-error ">
+            <span className="text-white text-xl">{msg}</span>
+          </div>
+        </div>
+      ))
     }
   }
 
+  const [showPass, setShowPass] = useState(false)
+  const [showPassConfirm, setShowPassConfirm] = useState(false)
+
   return (
-    <div className="max-w-sm mx-auto card bg-base-300 my-4">
+    <div className="max-w-sm mx-auto card my-4 backdrop-blur border-2 border-base-100">
       <div className="card-body">
         <h1 className="card-title">Crear una cuenta</h1>
         <form onSubmit={handleSubmit(formSubmit)}>
@@ -130,14 +142,25 @@ const Form = () => {
                 Contraseña
               </label>
             </div>
-            <input
-              type="password"
-              id="password"
-              {...register('password', {
-                required: 'La contraseña es obligatorio.',
-              })}
-              className="input input-bordered w-full max-w-sm"
-            />
+            <div className="flex">
+              <input
+                type={showPass ? 'text' : 'password'}
+                id="password"
+                {...register('password', {
+                  required: 'La contraseña es obligatorio.',
+                })}
+                className="input input-bordered w-full max-w-sm"
+              />
+              <div
+                className="absolute right-10 mt-3 text-2xl"
+                onClick={() => {
+                  setShowPass(!showPass)
+                }}
+              >
+                <FontAwesomeIcon icon={faEye} className={!showPass ? 'hidden' : 'block'} />
+                <FontAwesomeIcon icon={faEyeSlash} className={showPass ? 'hidden' : 'block'} />
+              </div>
+            </div>
             {errors.password?.message && (
               <div className="text-error">{errors.password.message}</div>
             )}
@@ -154,18 +177,32 @@ const Form = () => {
                 Confirmar contraseña
               </label>
             </div>
-            <input
-              type="password"
-              id="confirmPassword"
-              {...register('confirmPassword', {
-                required: 'La confirmación de la contraseña es obligatorio.',
-                validate: (value) => {
-                  const { password } = getValues()
-                  return password === value || 'Las contraseñas no coinciden.'
-                },
-              })}
-              className="input input-bordered w-full max-w-sm"
-            />
+            <div className="flex">
+              <input
+                type={showPassConfirm ? 'text' : 'password'}
+                id="confirmPassword"
+                {...register('confirmPassword', {
+                  required: 'La confirmación de la contraseña es obligatorio.',
+                  validate: (value) => {
+                    const { password } = getValues()
+                    return password === value || 'Las contraseñas no coinciden.'
+                  },
+                })}
+                className="input input-bordered w-full max-w-sm"
+              />
+              <div
+                className="absolute right-10 mt-3 text-2xl"
+                onClick={() => {
+                  setShowPassConfirm(!showPassConfirm)
+                }}
+              >
+                <FontAwesomeIcon icon={faEye} className={!showPassConfirm ? 'hidden' : 'block'} />
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  className={showPassConfirm ? 'hidden' : 'block'}
+                />
+              </div>
+            </div>
             {errors.confirmPassword?.message && (
               <div className="text-error">{errors.confirmPassword.message}</div>
             )}

@@ -7,6 +7,7 @@ export const metadata = {
 const AdminOrdersPage = () => {
   return (
     <AdminLayout activeItem="orders">
+      <h1 className="py-4 text-2xl">Pedidos</h1>
       <Orders />
     </AdminLayout>
   )

@@ -12,7 +12,10 @@ const config: Config = {
       {
         light: {
           ...require('daisyui/src/theming/themes')['light'],
-          primary: '#fbbf24',
+          primary: '#f59e0b',
+          'base-100': '#d0d0d0',
+
+          custom: '00FF00',
         },
         dark: {
           ...require('daisyui/src/theming/themes')['dark'],

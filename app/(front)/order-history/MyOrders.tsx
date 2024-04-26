@@ -16,10 +16,15 @@ const MyOrders = () => {
   if (!mounted) return <></>
 
   if (error) return 'Ha ocurrido un error'
-  if (!orders) return 'Cargando...'
+  if (!orders)
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <div className="loading loading-bars loading-lg"></div>
+      </div>
+    )
   return (
     <div className="overflow-x-auto">
-      <table className="table">
+      <table className="table table-zebra bg-base-100">
         <thead>
           <tr>
             <th>ID</th>
@@ -49,7 +54,7 @@ const MyOrders = () => {
                   href={`/order/${order._id}`}
                   passHref
                   type="button"
-                  className="btn btn-ghost btn-sm"
+                  className="btn btn-outline btn-sm"
                 >
                   Detalles
                 </Link>

@@ -10,7 +10,7 @@ export const SearchBox = () => {
   const { data: categories, error } = useSWR('/api/products/categories')
 
   if (error) return error.message
-  if (!categories) return 'Cargando...'
+  if (!categories) return <span className="loading loading-bars loading-md"></span>
 
   return (
     <form action="/search" method="GET">
@@ -31,7 +31,7 @@ export const SearchBox = () => {
           defaultValue={q}
           name="q"
         />
-        <button className="join-item btn btn-outline">
+        <button className="join-item btn btn-outline bg-base-100">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-6 h-6">
             <path
               fill="#ebeef5"

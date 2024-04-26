@@ -34,7 +34,12 @@ export default function Products() {
   )
 
   if (error) return 'Ha ocurrido un error'
-  if (!products) return 'Cargando...'
+  if (!products)
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <div className="loading loading-bars loading-lg"></div>
+      </div>
+    )
 
   return (
     <div>
@@ -46,7 +51,7 @@ export default function Products() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="table table-zebra">
+        <table className="table table-zebra bg-base-100">
           <thead>
             <tr>
               <th>ID</th>

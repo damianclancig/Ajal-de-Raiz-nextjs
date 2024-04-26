@@ -45,8 +45,6 @@ export default function RootLayout({
           name="twitter:image"
           content="https://opengraph.b-cdn.net/production/documents/9999957f-2762-4816-8a7a-8eaaf0428347.jpg?token=xh4IoZMJjVu13tHW83QglYQmf_DZ2lkq2bRolA7xNVg&height=500&width=500&expires=33249364177"
         />
-
-        {/* <!-- Meta Tags Generated via https://www.opengraph.xyz --> */}
       </head>
       <body className={inter.className}>
         <Providers>
@@ -54,12 +52,14 @@ export default function RootLayout({
             <DrawerButton />
             <div className="drawer-content">
               {/* Page content here */}
-              <div className="min-h-screen flex flex-col">
-                <Header />
-                {children}
-                <footer className="footer footer-center p-4 bg-base-300 text-base-content">
-                  <p>Copyright 2024 - All right reserved by Ajal de Raiz.</p>
-                </footer>
+              <div className=" bg-[url('/images/fondos/fondo(1).jpg')] bg-cover bg-fixed bg-center">
+                <div className="min-h-screen flex flex-col bg-base-300 bg-opacity-80">
+                  <Header />
+                  {children}
+                  <footer className="footer footer-center p-4 bg-base-300 text-base-content">
+                    <p>Copyright 2024 - All right reserved by Ajal de Raiz.</p>
+                  </footer>
+                </div>
               </div>
             </div>
             <div className="drawer-side">
