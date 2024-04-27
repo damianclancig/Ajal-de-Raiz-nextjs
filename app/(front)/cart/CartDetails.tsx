@@ -27,7 +27,7 @@ export default function CartDetails() {
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
-            <table className="table">
+            <table className="table table-zebra bg-base-100">
               <thead>
                 <tr>
                   <th>Producto</th>

@@ -91,8 +91,8 @@ export default function useCartService() {
 
 const calcPrice = (items: OrderItem[]) => {
   const itemsPrice = round2(items.reduce((acc, item) => acc + item.price * item.qty, 0)),
-    shippingPrice = round2(itemsPrice > 100 ? 0 : 100),
+    shippingPrice = round2(itemsPrice > 10000 ? 0 : 6000),
     taxPrice = round2(Number(0.15 * itemsPrice)),
-    totalPrice = round2(itemsPrice * shippingPrice + taxPrice)
+    totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
   return { itemsPrice, shippingPrice, taxPrice, totalPrice }
 }
