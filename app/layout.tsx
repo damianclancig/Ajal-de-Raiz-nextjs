@@ -62,7 +62,7 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
-            <div className="drawer-side">
+            <div className="drawer-side z-[100]">
               <label
                 htmlFor="my-drawer"
                 aria-label="close sidebar"
