@@ -9,6 +9,6 @@ export const GET = auth(async (req: any) => {
 
   const { user } = req.auth
   await dbConnet()
-  const orders = await OrderModel.find({ user: user._id })
+  const orders = await OrderModel.find({ user: user._id }).sort({ _id: -1 })
   return Response.json(orders)
 }) as any

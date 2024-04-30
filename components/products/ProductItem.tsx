@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function ProductItem({ product }: { product: Product }) {
   return (
-    <div className="card bg-base-300 shadow-xl mb-4">
+    <div className="card bg-base-300 bg-opacity-20 backdrop-blur shadow-xl mb-4 border-4 border-base-300 ">
       <figure>
         <Link href={`/product/${product.slug}`}>
           <Image
@@ -13,11 +13,11 @@ export default function ProductItem({ product }: { product: Product }) {
             alt={product.name}
             width={300}
             height={300}
-            className="object-cover h-64 w-full"
+            className="object-cover h-52 w-54"
           />
         </Link>
       </figure>
-      <div className="card-body">
+      <div className="card-body ">
         <Link href={`/product/${product.slug}`}>
           <h2 className="card-title font-normal">{product.name}</h2>
         </Link>

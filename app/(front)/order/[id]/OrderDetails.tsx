@@ -92,8 +92,8 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
       <div className="my-2">{linkBack()} </div>
 
       <h1 className="text-2xl py-4">Pedido N° {orderId}</h1>
-      <div className="grid md:grid-cols-4 md:gap-5 my-4">
-        <div className="md:col-span-3">
+      <div className="grid lg:grid-cols-4 gap-5 my-4">
+        <div className="lg:col-span-3">
           <div className="card bg-base-300">
             <div className="card-body">
               <h2 className="card-title">Dirección de envío</h2>

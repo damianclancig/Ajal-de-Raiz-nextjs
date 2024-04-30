@@ -69,8 +69,8 @@ const Form = () => {
   return (
     <div>
       <CheckoutSteps current={4} />
-      <div className="grid md:grid-cols-4 md:gap-5 my-4">
-        <div className="overflow-x-auto md:col-span-3">
+      <div className="grid lg:grid-cols-4 gap-5 my-4">
+        <div className="overflow-x-auto lg:col-span-3">
           <div className="card bg-base-300">
             <div className="card-body">
               <h2 className="card-title">Dirección de envío</h2>
@@ -143,48 +143,48 @@ const Form = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div className="card bg-base-300">
-          <div className="card-body">
-            <h2 className="card-title">Resumen del pedido</h2>
-            <ul className="space-y-3">
-              <li>
-                <div className=" flex justify-between">
-                  <div>Productos</div>
-                  <div>{formatCurrency(itemsPrice)}</div>
-                </div>
-              </li>
-              <li>
-                <div className=" flex justify-between">
-                  <div>Impuestos</div>
-                  <div>{formatCurrency(taxPrice)}</div>
-                </div>
-              </li>
-              <li>
-                <div className=" flex justify-between">
-                  <div>Envío</div>
-                  <div>{formatCurrency(shippingPrice)}</div>
-                </div>
-              </li>
-              <li>
-                <div className=" flex justify-between">
-                  <div>Total</div>
-                  <div>{formatCurrency(totalPrice)}</div>
-                </div>
-              </li>
+        <div>
+          <div className="card bg-base-300">
+            <div className="card-body">
+              <h2 className="card-title">Resumen del pedido</h2>
+              <ul className="space-y-3">
+                <li>
+                  <div className=" flex justify-between">
+                    <div>Productos</div>
+                    <div>{formatCurrency(itemsPrice)}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className=" flex justify-between">
+                    <div>Impuestos</div>
+                    <div>{formatCurrency(taxPrice)}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className=" flex justify-between">
+                    <div>Envío</div>
+                    <div>{formatCurrency(shippingPrice)}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className=" flex justify-between">
+                    <div>Total</div>
+                    <div>{formatCurrency(totalPrice)}</div>
+                  </div>
+                </li>
 
-              <li>
-                <button
-                  onClick={() => placeOrder()}
-                  disabled={isPlacing}
-                  className="btn btn-primary w-full"
-                >
-                  {isPlacing && <span className="loading loading-spinner"></span>}
-                  Confirmar pedido
-                </button>
-              </li>
-            </ul>
+                <li>
+                  <button
+                    onClick={() => placeOrder()}
+                    disabled={isPlacing}
+                    className="btn btn-primary w-full"
+                  >
+                    {isPlacing && <span className="loading loading-spinner"></span>}
+                    Confirmar pedido
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

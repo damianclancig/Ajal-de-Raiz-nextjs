@@ -4,9 +4,10 @@ import dbConnect from '@/lib/dbConnect'
 
 export const revalidate = 3600
 
+const PAGE_SIZE = 10
 const getAll = cache(async () => {
   await dbConnect()
-  const products = await ProductModel.find({}).sort({ _id: -1 }).limit(4).lean()
+  const products = await ProductModel.find({}).sort({ _id: -1 }).limit(PAGE_SIZE).lean()
   return products as Product[]
 })
 
@@ -34,7 +35,6 @@ const getBySlug = cache(async (slug: string) => {
   return product as Product
 })
 
-const PAGE_SIZE = 3
 const getByQuery = cache(
   async ({
     q,
@@ -87,7 +87,7 @@ const getByQuery = cache(
         : sort === 'highest'
         ? { price: -1 }
         : sort === 'toprated'
-        ? { rating: -1 }
+        ? { rating: 1 }
         : { _id: -1 }
 
     const categories = await ProductModel.find().distinct('category')

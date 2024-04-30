@@ -2,7 +2,8 @@ import { Rating } from '@/components/products/Rating'
 import ProductItem from '@/components/products/ProductItem'
 import productServices from '@/lib/services/productServices'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
+import Filters from '@/components/products/Filters'
 
 const sortOrders = [
   { code: 'newest', name: 'Más nuevos' },
@@ -10,35 +11,6 @@ const sortOrders = [
   { code: 'highest', name: 'Mayor precio' },
   { code: 'toprated', name: 'Mejor puntuación' },
 ]
-
-const prices = [
-  {
-    name: '$1 hasta $500',
-    value: '1-500',
-  },
-  {
-    name: '$501 hasta $1.000',
-    value: '501-1000',
-  },
-  {
-    name: '$1.001 hasta $5.000',
-    value: '1001-5000',
-  },
-  {
-    name: '$5.001 hasta $10.000',
-    value: '5001-10000',
-  },
-  {
-    name: '$10.001 hasta $50.000',
-    value: '10001-50000',
-  },
-  {
-    name: '$50.001 en adelante',
-    value: '50001-99999999',
-  },
-]
-
-const ratings = [5, 4, 3, 2, 1]
 
 export async function generateMetadata({
   searchParams: { q = 'all', category = 'all', price = 'all', rating = 'all' },
@@ -54,10 +26,10 @@ export async function generateMetadata({
 }) {
   if ((q !== 'all' && q !== '') || category !== 'all' || rating !== 'all' || price !== 'all') {
     return {
-      title: `Search ${q !== 'all' ? q : ''}
-       ${category !== 'all' ? ` : Category ${category}` : ''}
-       ${price !== 'all' ? ` : Price ${price}` : ''}
-       ${rating !== 'all' ? ` : Rating ${rating}` : ''}`,
+      title: `Buscar ${q !== 'all' ? q : ''}
+       ${category !== 'all' ? ` : Categoría ${category}` : ''}
+       ${price !== 'all' ? ` : Precio ${price}` : ''}
+       ${rating !== 'all' ? ` : Calificación ${rating}` : ''}`,
     }
   } else {
     return {
@@ -106,7 +78,7 @@ export default async function SearchPage({
     if (s) params.sort = s
     return `/search?${new URLSearchParams(params).toString()}`
   }
-  const categories = await productServices.getCategories()
+
   const { countProducts, products, pages } = await productServices.getByQuery({
     category,
     q,
@@ -115,79 +87,35 @@ export default async function SearchPage({
     page,
     sort,
   })
+
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
-      <div>
-        <div className="text-xl pt-3 underline">Categorías</div>
-        <div>
-          <ul>
-            <li>
-              <Link
-                className={`link link-hover ${'all' === category && 'link-info'}`}
-                href={getFilterUrl({ c: 'all' })}
-              >
-                Todos
-              </Link>
-            </li>
-            {categories.map((c: string) => (
-              <li key={c}>
-                <Link
-                  className={`link link-hover ${c === category && 'link-info'}`}
-                  href={getFilterUrl({ c })}
-                >
-                  {c}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="text-xl pt-3 underline">Precio</div>
-          <ul>
-            <li>
-              <Link
-                className={`link link-hover ${'all' === price && 'link-info'}`}
-                href={getFilterUrl({ p: 'all' })}
-              >
-                Todos
-              </Link>
-            </li>
-            {prices.map((p) => (
-              <li key={p.value}>
-                <Link
-                  href={getFilterUrl({ p: p.value })}
-                  className={`link link-hover ${p.value === price && 'link-info'}`}
-                >
-                  {p.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="text-xl pt-3 underline">Calificación</div>
-          <ul>
-            <li>
-              <Link
-                href={getFilterUrl({ r: 'all' })}
-                className={`link link-hover ${'all' === rating && 'link-info'}`}
-              >
-                Todos
-              </Link>
-            </li>
-            {ratings.map((r) => (
-              <li key={r}>
-                <Link
-                  href={getFilterUrl({ r: `${r}` })}
-                  className={`link link-hover ${`${r}` === rating && 'link-info'}`}
-                >
-                  <Rating caption={''} value={r}></Rating>
-                </Link>
-              </li>
-            ))}
-          </ul>
+      <div className={`md:hidden `}>
+        <div className="m-2 space-y-2">
+          <div className="group flex flex-col gap-2 rounded-lg p-5" tabIndex={1}>
+            <div className="flex cursor-pointer items-center justify-between">
+              <span>Filtros</span>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
+                className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
+              />
+            </div>
+            <div className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000">
+              <Filters
+                getFilterUrl={getFilterUrl}
+                category={category}
+                price={price}
+                rating={rating}
+              />
+            </div>
+          </div>
         </div>
       </div>
+
+      <div className={`hidden md:block`}>
+        <Filters getFilterUrl={getFilterUrl} category={category} price={price} rating={rating} />
+      </div>
+
       <div className="md:col-span-4">
         <div className="flex items-center justify-between flex-col-reverse py-4">
           <div className="flex items-center">
@@ -223,7 +151,7 @@ export default async function SearchPage({
         </div>
 
         <div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3  ">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 ">
             {products.map((product) => (
               <ProductItem key={product.slug} product={product} />
             ))}
