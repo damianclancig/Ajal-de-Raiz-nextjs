@@ -2,6 +2,7 @@ import { Product } from '@/lib/models/ProductModel'
 import { formatCurrency, optimizeImage } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Rating } from './Rating'
 
 export default function ProductItem({ product }: { product: Product }) {
   return (
@@ -17,6 +18,9 @@ export default function ProductItem({ product }: { product: Product }) {
           />
         </Link>
       </figure>
+      <div className="flex justify-end">
+        <Rating value={product.rating} size={3} />
+      </div>
       <div className="card-body ">
         <Link href={`/product/${product.slug}`}>
           <h2 className="card-title font-normal">{product.name}</h2>

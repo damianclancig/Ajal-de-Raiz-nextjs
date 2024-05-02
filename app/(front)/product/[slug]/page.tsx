@@ -3,6 +3,7 @@ import { convertDocToObj, formatCurrency, optimizeImage } from '@/lib/utils'
 import productServices from '@/lib/services/productServices'
 import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
+import { Rating } from '@/components/products/Rating'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const product = await productServices.getBySlug(params.slug)
@@ -54,6 +55,7 @@ export default async function ProductDetails({
             height={640}
             sizes="100vw"
             style={{ width: '100%', height: 'auto' }}
+            className="rounded-xl"
           />
         </div>
         <div>
@@ -61,15 +63,17 @@ export default async function ProductDetails({
             <li>
               <h1 className="text-xl">{product.name}</h1>
             </li>
-            <li>
+            <li className="text-sm">
+              <Rating value={product.rating} />
               {product.rating} de {product.numReviews} valoraciones
             </li>
-            <li>{product.brand}</li>
+            <li className="font-bold">{product.brand}</li>
             <li>
               <div className="divider"></div>
             </li>
             <li>
-              Descripción: <p>{product.description}</p>
+              <u>Descripción:</u>
+              <p>{product.description}</p>
             </li>
           </ul>
         </div>
