@@ -101,11 +101,7 @@ export default async function Filters({ getFilterUrl, category, price, rating }:
                 href={getFilterUrl({ r: r })}
                 className={`link link-hover ${r === rating && 'link-info'}`}
               >
-                <Rating
-                  caption={''}
-                  value={r}
-                  {...(r == rating ? { selected: 'text-info' } : '')}
-                />
+                <Rating value={r} {...(r == rating ? { selected: 'text-info' } : '')} />
               </Link>
             </li>
           ))}
