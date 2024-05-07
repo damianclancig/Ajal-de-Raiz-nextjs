@@ -71,7 +71,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
       })
   }
   useEffect(() => {
-    onApproveMercadoPagoOrder()
+    if (status) onApproveMercadoPagoOrder()
   }, [status])
 
   const { data, error } = useSWR(`/api/orders/${orderId}`)
