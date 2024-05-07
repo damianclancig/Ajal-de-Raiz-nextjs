@@ -1,6 +1,6 @@
 'use client'
-
 import { BackButton } from '@/components/BackButton'
+import MercadoPagoButton from '@/components/MercadoPagoButton'
 import { OrderItem } from '@/lib/models/OrderModel'
 import { formatCurrency, formatDate, optimizeImage } from '@/lib/utils'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
@@ -200,6 +200,16 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                         onApprove={onApprovePayPalOrder}
                       />
                     </PayPalScriptProvider>
+                  </li>
+                )}
+
+                {!isPaid && paymentMethod === 'MercadoPago' && (
+                  <li>
+                    <MercadoPagoButton
+                      orderId={orderId}
+                      amount={totalPrice}
+                      message={'este es un mensaje de prueba'}
+                    />
                   </li>
                 )}
                 {session?.user.isAdmin && !isDelivered && (
