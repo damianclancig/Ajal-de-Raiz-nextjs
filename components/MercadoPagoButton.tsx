@@ -1,15 +1,6 @@
 import { useEffect, useState } from 'react'
-import useSWR from 'swr'
 
-export default function MercadoPagoButton({
-  orderId,
-  amount,
-  message,
-}: {
-  orderId: string
-  amount: number
-  message: string
-}) {
+export default function MercadoPagoButton({ orderId }: { orderId: string }) {
   const [url, setUrl] = useState<null | string>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -23,27 +14,21 @@ export default function MercadoPagoButton({
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('data', data)
         setUrl(data)
-
         setLoading(false)
       })
   }
 
   useEffect(() => {
-    try {
-      generateLink()
-    } catch (error) {
-      console.error(error)
-    }
+    generateLink()
   }, [orderId])
 
   return (
     <>
       {loading ? (
-        <button className="btn btn-primary">Loading</button>
+        <button className="btn btn-primary w-full">Loading</button>
       ) : (
-        <a href={url!} className="btn btn-primary">
+        <a href={url!} className="btn btn-primary w-full">
           Continuar con MercadoPago
         </a>
       )}

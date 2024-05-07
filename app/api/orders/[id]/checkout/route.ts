@@ -14,16 +14,18 @@ export const POST = auth(async (...request: any) => {
       }
     )
   }
-  const URL = 'http://localhost:3000'
+  const URL = `http://localhost:3000/order/${params.id}`
   const order = await OrderModel.findById(params.id)
   if (order) {
+    const cant = order.items.length
+    const message = `Pedido de ${cant} producto${cant == 1 ? '' : 's'}`
     try {
       const preference = await new Preference(client).create({
         body: {
           items: [
             {
               id: params.id,
-              title: 'Hola Mundo',
+              title: message,
               quantity: 1,
               unit_price: order.totalPrice,
             },
