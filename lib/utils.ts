@@ -1,3 +1,5 @@
+import { OrderItem } from './models/OrderModel'
+
 export const round2 = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
 export function convertDocToObj(doc: any) {
@@ -37,4 +39,16 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 export const optimizeImage = (image: string, width: number) => {
   return image.replace('upload/', `upload/w_${width},q_auto:eco/`)
+}
+
+export const calcPrices = (orderItems: OrderItem[]) => {
+  // Calculate the items price
+  const itemsPrice = round2(orderItems.reduce((acc, item) => acc + item.price * item.qty, 0))
+  // Calculate the shipping price
+  const shippingPrice = round2(itemsPrice > 10000 ? 0 : 6000)
+  // Calculate the tax price
+  const taxPrice = round2(Number((0.15 * itemsPrice).toFixed(2)))
+  // Calculate the total price
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
+  return { itemsPrice, shippingPrice, taxPrice, totalPrice }
 }

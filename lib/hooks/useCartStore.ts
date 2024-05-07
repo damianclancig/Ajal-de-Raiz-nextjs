@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { OrderItem, ShippingAddress } from '../models/OrderModel'
-import { round2 } from '../utils'
+import { calcPrices } from '../utils'
 import { persist } from 'zustand/middleware'
 
 type Cart = {
@@ -48,7 +48,7 @@ export default function useCartService() {
         ? items.map((i) => (i.slug === item.slug ? { ...exist, qty: exist.qty + 1 } : i))
         : [...items, { ...item, qty: 1 }]
 
-      const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calcPrice(updateCartItems)
+      const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calcPrices(updateCartItems)
       cartStore.setState({
         items: updateCartItems,
         itemsPrice,
@@ -64,8 +64,7 @@ export default function useCartService() {
         exist.qty === 1
           ? items.filter((i: OrderItem) => i.slug !== item.slug)
           : items.map((i) => (i.slug === item.slug ? { ...exist, qty: exist.qty - 1 } : i))
-      console.log(exist, items, updateCartItems)
-      const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calcPrice(updateCartItems)
+      const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calcPrices(updateCartItems)
       cartStore.setState({
         items: updateCartItems,
         itemsPrice,
@@ -87,12 +86,4 @@ export default function useCartService() {
     },
     init: () => cartStore.setState(initialState),
   }
-}
-
-const calcPrice = (items: OrderItem[]) => {
-  const itemsPrice = round2(items.reduce((acc, item) => acc + item.price * item.qty, 0)),
-    shippingPrice = round2(itemsPrice > 10000 ? 0 : 6000),
-    taxPrice = round2(Number(0.15 * itemsPrice)),
-    totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
-  return { itemsPrice, shippingPrice, taxPrice, totalPrice }
 }

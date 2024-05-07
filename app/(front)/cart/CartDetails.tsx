@@ -21,8 +21,19 @@ export default function CartDetails() {
     <>
       <h1 className="py-4 text-2xl">Carrito de compras</h1>
       {items.length === 0 ? (
-        <div>
-          El carrito está vacío. <Link href="/">Ver productos</Link>
+        <div className="flex flex-col items-center">
+          <span className="text-2xl">El carrito está vacío.</span>
+          <Image
+            src={
+              'https://res.cloudinary.com/dqh1coa3c/image/upload/f_auto,q_auto/jy2jyjqs1hj03is7xhln'
+            }
+            alt="CartEmpty"
+            height={300}
+            width={300}
+          />
+          <Link href="/search" className="btn btn-primary">
+            Buscar productos
+          </Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">

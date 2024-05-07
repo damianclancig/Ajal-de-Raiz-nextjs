@@ -1,20 +1,8 @@
 import { auth } from '@/lib/auth'
 import dbConnect from '@/lib/dbConnect'
-import OrderModel, { OrderItem } from '@/lib/models/OrderModel'
+import OrderModel from '@/lib/models/OrderModel'
 import ProductModel from '@/lib/models/ProductModel'
-import { round2 } from '@/lib/utils'
-
-const calcPrices = (orderItems: OrderItem[]) => {
-  // Calculate the items price
-  const itemsPrice = round2(orderItems.reduce((acc, item) => acc + item.price * item.qty, 0))
-  // Calculate the shipping price
-  const shippingPrice = round2(itemsPrice > 100 ? 0 : 10)
-  // Calculate the tax price
-  const taxPrice = round2(Number((0.15 * itemsPrice).toFixed(2)))
-  // Calculate the total price
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
-  return { itemsPrice, shippingPrice, taxPrice, totalPrice }
-}
+import { calcPrices } from '@/lib/utils'
 
 export const POST = auth(async (req: any) => {
   if (!req.auth) {
