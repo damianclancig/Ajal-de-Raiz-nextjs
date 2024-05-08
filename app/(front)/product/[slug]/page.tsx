@@ -58,41 +58,45 @@ export default async function ProductDetails({
             className="rounded-xl"
           />
         </div>
-        <div>
-          <ul className="space-y-4">
-            <li>
-              <h1 className="text-xl">{product.name}</h1>
-            </li>
-            <li className="text-sm">
-              <Rating value={product.rating} />
-              {product.rating} de {product.numReviews} valoraciones
-            </li>
-            <li className="font-bold">{product.brand}</li>
-            <li>
-              <div className="divider"></div>
-            </li>
-            <li>
-              <u>Descripción:</u>
-              <p>{product.description}</p>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <div className="card bg-base-300 shadow-xl mt-3 md:mt-0">
-            <div className="card-body">
-              <div className="mb-2 flex justify-between">
-                <div>Precio</div>
-                <div>{formatCurrency(product.price)}</div>
-              </div>
-              <div className="mb-2 flex justify-between">
-                <div>Estado</div>
-                <div>{product.countInStock > 0 ? 'Disponible' : 'No Disponible'}</div>
-              </div>
-              {product.countInStock !== 0 && (
-                <div className="card-actions justify-center">
-                  <AddToCart item={{ ...convertDocToObj(product), qty: 0, color: '', size: '' }} />
+        <div className="grid md:grid-cols-2 md:col-span-2 card bg-base-300 bg-opacity-20 backdrop-blur shadow-xl p-2 mt-2 md:mt-0">
+          <div>
+            <ul className="space-y-4">
+              <li>
+                <h1 className="text-3xl">{product.name}</h1>
+              </li>
+              <li className="text-sm">
+                <Rating value={product.rating} />
+                {product.rating} de {product.numReviews} valoraciones
+              </li>
+              <li className="font-bold">{product.brand}</li>
+              <li>
+                <div className="divider"></div>
+              </li>
+              <li>
+                <u>Descripción:</u>
+                <p>{product.description}</p>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div className="card bg-base-300 shadow-xl mt-3 md:mt-0">
+              <div className="card-body">
+                <div className="mb-2 flex justify-between">
+                  <div>Precio</div>
+                  <div>{formatCurrency(product.price)}</div>
                 </div>
-              )}
+                <div className="mb-2 flex justify-between">
+                  <div>Estado</div>
+                  <div>{product.countInStock > 0 ? 'Disponible' : 'No Disponible'}</div>
+                </div>
+                {product.countInStock !== 0 && (
+                  <div className="card-actions justify-center">
+                    <AddToCart
+                      item={{ ...convertDocToObj(product), qty: 0, color: '', size: '' }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
