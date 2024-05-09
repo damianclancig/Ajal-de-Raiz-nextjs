@@ -51,7 +51,9 @@ export const ProductsList = ({ items }: any) => {
               {items.reduce((acc: number, item: OrderItem) => acc + item.qty, 0)}
             </td>
             <td className="text-right">
-              {formatCurrency(items.reduce((acc: number, item: OrderItem) => acc + item.price, 0))}
+              {formatCurrency(
+                items.reduce((acc: number, item: OrderItem) => acc + item.price * item.qty, 0)
+              )}
             </td>
           </tr>
         </tfoot>

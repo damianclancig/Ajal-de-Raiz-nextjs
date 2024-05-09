@@ -1,4 +1,5 @@
 'use client'
+import { PaymentMethodLogo } from '@/components/orders/PaymentMethodLogo'
 import { ProductsList } from '@/components/products/ProductsList'
 import { OrderItem } from '@/lib/models/OrderModel'
 import { formatCurrency, formatDate, optimizeImage } from '@/lib/utils'
@@ -102,7 +103,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
               <h2 className="card-title">Método de pago</h2>
-              <p>{paymentMethod}</p>
+              <PaymentMethodLogo paymentMethod={paymentMethod} />
               {isPaid ? (
                 <div className="text-success">Pagado el {formatDate(paidAt)}</div>
               ) : (

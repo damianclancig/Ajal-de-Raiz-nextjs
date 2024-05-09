@@ -1,5 +1,6 @@
 'use client'
 import CheckoutSteps from '@/components/CheckoutSteps'
+import { PaymentMethodLogo } from '@/components/orders/PaymentMethodLogo'
 import { ProductsList } from '@/components/products/ProductsList'
 import useCartService from '@/lib/hooks/useCartStore'
 import { formatCurrency, freeShippingCost, optimizeImage } from '@/lib/utils'
@@ -91,25 +92,7 @@ const Form = () => {
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
               <h2 className="card-title text-2xl">Método de pago</h2>
-              <p>
-                {paymentMethod === 'PayPal' ? (
-                  <Image
-                    src={`https://res.cloudinary.com/dqh1coa3c/image/upload/f_auto,q_auto/logo-paypal_leuro4`}
-                    alt={paymentMethod}
-                    width={150}
-                    height={100}
-                  />
-                ) : paymentMethod === 'MercadoPago' ? (
-                  <Image
-                    src={`https://res.cloudinary.com/dqh1coa3c/image/upload/f_auto,q_auto/logo-mercado-pago_ta9vwr`}
-                    alt={paymentMethod}
-                    width={150}
-                    height={100}
-                  />
-                ) : (
-                  paymentMethod
-                )}
-              </p>
+              <PaymentMethodLogo paymentMethod={paymentMethod} />
               <div>
                 <Link className="btn btn-outline" href="/payment">
                   Elegir otro medio de pago
@@ -152,7 +135,13 @@ const Form = () => {
                 <li>
                   <div className=" flex justify-between">
                     <div>Envío</div>
-                    <div>{formatCurrency(shippingPrice)}</div>
+                    <div>
+                      {shippingPrice ? (
+                        formatCurrency(shippingPrice)
+                      ) : (
+                        <span className="text-green-600">Gratis</span>
+                      )}
+                    </div>
                   </div>
                 </li>
                 <li>
