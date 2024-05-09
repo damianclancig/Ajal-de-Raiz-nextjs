@@ -6,10 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function page() {
-  return (
-    <>
-      <h2 className="text-2xl py-2">Mis pedidos</h2>
-      <MyOrders />
-    </>
-  )
+  return <MyOrders />
 }

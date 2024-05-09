@@ -4,7 +4,7 @@ import { SearchBox } from './SearchBox'
 
 const Header = () => {
   return (
-    <header>
+    <header className="mb-2">
       <nav>
         <div className="navbar justify-between bg-base-300">
           <div>

@@ -1,7 +1,11 @@
 'use client'
 import CheckoutSteps from '@/components/CheckoutSteps'
+import { PaymentMethodLogo } from '@/components/orders/PaymentMethodLogo'
+import { ProductsList } from '@/components/products/ProductsList'
 import useCartService from '@/lib/hooks/useCartStore'
-import { formatCurrency, optimizeImage } from '@/lib/utils'
+import { formatCurrency, freeShippingCost, optimizeImage } from '@/lib/utils'
+import { faTruck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -42,7 +46,7 @@ const Form = () => {
       const data = await res.json()
       if (res.ok) {
         clear()
-        toast.success('Order placed successfully')
+        toast.success('El pedido se cargó correctamente')
         return router.push(`/order/${data.order._id}`)
       } else {
         toast.error(data.message)
@@ -56,7 +60,6 @@ const Form = () => {
     if (items.length === 0) {
       return router.push('/')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentMethod, router])
 
   const [mounted, setMounted] = useState(false)
@@ -73,7 +76,7 @@ const Form = () => {
         <div className="overflow-x-auto lg:col-span-3">
           <div className="card bg-base-300">
             <div className="card-body">
-              <h2 className="card-title">Dirección de envío</h2>
+              <h2 className="card-title text-2xl">Dirección de envío</h2>
               <p>{shippingAddress.fullName}</p>
               <p>
                 {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode},{' '}
@@ -88,56 +91,25 @@ const Form = () => {
           </div>
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
-              <h2 className="card-title">Método de pago</h2>
-              <p>{paymentMethod}</p>
+              <h2 className="card-title text-2xl">Método de pago</h2>
+              <PaymentMethodLogo paymentMethod={paymentMethod} />
               <div>
                 <Link className="btn btn-outline" href="/payment">
-                  Cambiar
+                  Elegir otro medio de pago
                 </Link>
               </div>
             </div>
           </div>
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
-              <h2 className="card-title">Productos</h2>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item) => (
-                    <tr key={item.slug}>
-                      <td>
-                        <Link
-                          href={`/product/${item.slug}?backTo=placeOrder`}
-                          className="flex items-center"
-                        >
-                          <Image
-                            src={optimizeImage(item.image, 50)}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          />
-                          <span className="px-2">
-                            {item.name} ({item.color} {item.size})
-                          </span>
-                        </Link>
-                      </td>
-                      <td>
-                        <span>{item.qty}</span>
-                      </td>
-                      <td>{formatCurrency(item.price)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ProductsList items={items} />
+              <span className="text-right">
+                <FontAwesomeIcon icon={faTruck} /> Envío gratis superando{' '}
+                {formatCurrency(freeShippingCost)}
+              </span>
               <div>
                 <Link className="btn btn-outline" href="/cart">
-                  Cambiar
+                  Modificar productos
                 </Link>
               </div>
             </div>
@@ -163,7 +135,13 @@ const Form = () => {
                 <li>
                   <div className=" flex justify-between">
                     <div>Envío</div>
-                    <div>{formatCurrency(shippingPrice)}</div>
+                    <div>
+                      {shippingPrice ? (
+                        formatCurrency(shippingPrice)
+                      ) : (
+                        <span className="text-green-600">Gratis</span>
+                      )}
+                    </div>
                   </div>
                 </li>
                 <li>

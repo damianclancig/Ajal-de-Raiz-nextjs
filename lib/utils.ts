@@ -41,11 +41,13 @@ export const optimizeImage = (image: string, width: number) => {
   return image.replace('upload/', `upload/w_${width},q_auto:eco/`)
 }
 
+export const freeShippingCost = 10000
+
 export const calcPrices = (orderItems: OrderItem[]) => {
   // Calculate the items price
   const itemsPrice = round2(orderItems.reduce((acc, item) => acc + item.price * item.qty, 0))
   // Calculate the shipping price
-  const shippingPrice = round2(itemsPrice > 10000 ? 0 : 6000)
+  const shippingPrice = round2(itemsPrice > freeShippingCost ? 0 : 6000)
   // Calculate the tax price
   const taxPrice = round2(Number((0.15 * itemsPrice).toFixed(2)))
   // Calculate the total price

@@ -18,18 +18,18 @@ export default function ProductItem({ product }: { product: Product }) {
           />
         </Link>
       </figure>
-      <div className="flex justify-end">
-        <Rating value={product.rating} size={3} />
-      </div>
-      <div className="card-body ">
-        <Link href={`/product/${product.slug}`}>
-          <h2 className="card-title font-normal">{product.name}</h2>
-        </Link>
-        <p className="mb-2">{product.brand}</p>
-        <div className="card-actions flex items-center justify-between">
-          <span className="text-2xl">{formatCurrency(product.price)}</span>
+      <Link href={`/product/${product.slug}`}>
+        <div className="flex justify-end p-1">
+          <Rating value={product.rating} size={3} />
         </div>
-      </div>
+        <div className="card-body p-3">
+          <h2 className="card-title font-normal">{product.name}</h2>
+          <p className="mb-2">{product.brand}</p>
+          <div className="card-actions flex items-center justify-between">
+            <span className="text-2xl">{formatCurrency(product.price)}</span>
+          </div>
+        </div>
+      </Link>
     </div>
   )
 }

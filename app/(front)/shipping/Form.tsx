@@ -76,7 +76,7 @@ const Form = () => {
             <FormInput name="Ciudad" id="city" required />
             <FormInput name="Códito postal" id="postalCode" required />
             <FormInput name="País" id="country" required />
-            <div className="my-2">
+            <div className="mt-6 -mb-3">
               <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full">
                 {isSubmitting && <span className="loading loading-spinner"></span>}
                 Siguiente

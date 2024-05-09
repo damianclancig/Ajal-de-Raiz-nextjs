@@ -2,7 +2,6 @@ import AddToCart from '@/components/products/AddToCart'
 import { convertDocToObj, formatCurrency, optimizeImage } from '@/lib/utils'
 import productServices from '@/lib/services/productServices'
 import Image from 'next/image'
-import { BackButton } from '@/components/BackButton'
 import { Rating } from '@/components/products/Rating'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -26,26 +25,8 @@ export default async function ProductDetails({
   const product = await productServices.getBySlug(params.slug)
   if (!product) return <div>Producto no encontrado</div>
 
-  const linkBack = () => {
-    if (searchParams.backTo === 'adminProd')
-      return <BackButton link="/admin/products" title="Volver a productos" />
-    else if (searchParams.backTo === 'cart')
-      return <BackButton link="/cart" title="Volver al carrito" />
-    else if (searchParams.backTo === 'order')
-      return <BackButton link={`/order/${searchParams.orderId}`} title="Volver al pedido" />
-    else if (searchParams.backTo === 'adminOrder')
-      return (
-        <BackButton
-          link={`/order/${searchParams.orderId}?backTo=adminOrders`}
-          title="Volver al pedido"
-        />
-      )
-    else return <BackButton link="/" title="Volver a inicio" />
-  }
-
   return (
     <>
-      <div className="my-2">{linkBack()} </div>
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
           <Image
