@@ -24,7 +24,7 @@ const Form = () => {
   return (
     <div>
       <CheckoutSteps current={2} />
-      <div className="max-w-sm mx-auto card bg-base-300 my-3">
+      <div className="max-w-sm mx-auto card bg-base-300 mt-3">
         <div className="card-body">
           <h1 className="card-title">Métodos de pago</h1>
           <form onSubmit={handleSubmit}>
@@ -43,12 +43,12 @@ const Form = () => {
                 </label>
               </div>
             ))}
-            <div className="my-2">
+            <div className="mt-5">
               <button type="submit" className="btn btn-primary w-full">
                 Siguiente
               </button>
             </div>
-            <div className="my-2">
+            <div className="mt-3 -mb-5">
               <button type="button" className="btn w-full my-2" onClick={() => router.back()}>
                 Atrás
               </button>

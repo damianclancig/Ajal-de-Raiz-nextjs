@@ -45,7 +45,7 @@ const Form = () => {
       const data = await res.json()
       if (res.ok) {
         clear()
-        toast.success('Order placed successfully')
+        toast.success('El pedido se cargó correctamente')
         return router.push(`/order/${data.order._id}`)
       } else {
         toast.error(data.message)
@@ -59,7 +59,6 @@ const Form = () => {
     if (items.length === 0) {
       return router.push('/')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentMethod, router])
 
   const [mounted, setMounted] = useState(false)
@@ -76,7 +75,7 @@ const Form = () => {
         <div className="overflow-x-auto lg:col-span-3">
           <div className="card bg-base-300">
             <div className="card-body">
-              <h2 className="card-title">Dirección de envío</h2>
+              <h2 className="card-title text-2xl">Dirección de envío</h2>
               <p>{shippingAddress.fullName}</p>
               <p>
                 {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode},{' '}
@@ -91,11 +90,29 @@ const Form = () => {
           </div>
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
-              <h2 className="card-title">Método de pago</h2>
-              <p>{paymentMethod}</p>
+              <h2 className="card-title text-2xl">Método de pago</h2>
+              <p>
+                {paymentMethod === 'PayPal' ? (
+                  <Image
+                    src={`https://res.cloudinary.com/dqh1coa3c/image/upload/f_auto,q_auto/logo-paypal_leuro4`}
+                    alt={paymentMethod}
+                    width={150}
+                    height={100}
+                  />
+                ) : paymentMethod === 'MercadoPago' ? (
+                  <Image
+                    src={`https://res.cloudinary.com/dqh1coa3c/image/upload/f_auto,q_auto/logo-mercado-pago_ta9vwr`}
+                    alt={paymentMethod}
+                    width={150}
+                    height={100}
+                  />
+                ) : (
+                  paymentMethod
+                )}
+              </p>
               <div>
                 <Link className="btn btn-outline" href="/payment">
-                  Cambiar
+                  Elegir otro medio de pago
                 </Link>
               </div>
             </div>
