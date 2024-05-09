@@ -1,7 +1,10 @@
 'use client'
 import CheckoutSteps from '@/components/CheckoutSteps'
+import { ProductsList } from '@/components/products/ProductsList'
 import useCartService from '@/lib/hooks/useCartStore'
-import { formatCurrency, optimizeImage } from '@/lib/utils'
+import { formatCurrency, freeShippingCost, optimizeImage } from '@/lib/utils'
+import { faTruck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -99,45 +102,14 @@ const Form = () => {
           </div>
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
-              <h2 className="card-title">Productos</h2>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item) => (
-                    <tr key={item.slug}>
-                      <td>
-                        <Link
-                          href={`/product/${item.slug}?backTo=placeOrder`}
-                          className="flex items-center"
-                        >
-                          <Image
-                            src={optimizeImage(item.image, 50)}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          />
-                          <span className="px-2">
-                            {item.name} ({item.color} {item.size})
-                          </span>
-                        </Link>
-                      </td>
-                      <td>
-                        <span>{item.qty}</span>
-                      </td>
-                      <td>{formatCurrency(item.price)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ProductsList items={items} />
+              <span className="text-right">
+                <FontAwesomeIcon icon={faTruck} /> Envío gratis superando{' '}
+                {formatCurrency(freeShippingCost)}
+              </span>
               <div>
                 <Link className="btn btn-outline" href="/cart">
-                  Cambiar
+                  Modificar productos
                 </Link>
               </div>
             </div>

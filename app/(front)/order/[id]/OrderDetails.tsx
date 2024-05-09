@@ -1,5 +1,5 @@
 'use client'
-
+import { ProductsList } from '@/components/products/ProductsList'
 import { OrderItem } from '@/lib/models/OrderModel'
 import { formatCurrency, formatDate, optimizeImage } from '@/lib/utils'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
@@ -113,40 +113,7 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
 
           <div className="card bg-base-300 mt-4">
             <div className="card-body">
-              <h2 className="card-title">Productos</h2>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item: OrderItem) => (
-                    <tr key={item.slug}>
-                      <td>
-                        <Link
-                          href={`/product/${item.slug}?backTo=${paramOrderLink}&orderId=${orderId}`}
-                          className="flex items-center"
-                        >
-                          <Image
-                            src={optimizeImage(item.image, 50)}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          />
-                          <span className="px-2">
-                            {item.name} ({item.color} {item.size})
-                          </span>
-                        </Link>
-                      </td>
-                      <td>{item.qty}</td>
-                      <td>{formatCurrency(item.price)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ProductsList items={items} />
             </div>
           </div>
         </div>
