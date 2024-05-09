@@ -1,7 +1,9 @@
 'use client'
 
 import useCartService from '@/lib/hooks/useCartStore'
-import { formatCurrency, optimizeImage } from '@/lib/utils'
+import { formatCurrency, freeShippingCost, optimizeImage } from '@/lib/utils'
+import { faTruck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -44,8 +46,8 @@ export default function CartDetails() {
                 <thead>
                   <tr className="text-lg">
                     <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
+                    <th className="w-48">Cantidad</th>
+                    <th className="text-right w-48">Precio</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -107,10 +109,27 @@ export default function CartDetails() {
                           </svg>
                         </button>
                       </td>
-                      <td className="text-lg md:text-lx">{formatCurrency(item.price)}</td>
+                      <td className="text-right text-xl md:text-lx">
+                        {formatCurrency(item.price)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
+                <tfoot>
+                  <tr className="text-lg">
+                    <td>Total</td>
+                    <td>99</td>
+                    <td className="text-right">{formatCurrency(itemsPrice)}</td>
+                  </tr>
+                  <tr className="text-lg">
+                    <td colSpan={3} className="text-right">
+                      <span>
+                        <FontAwesomeIcon icon={faTruck} /> Envío gratis superando{' '}
+                        {formatCurrency(freeShippingCost)}
+                      </span>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
             <div className="mt-2 md:mt-0">
