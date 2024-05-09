@@ -2,8 +2,7 @@ import { auth } from '@/lib/auth'
 import OrderModel from '@/lib/models/OrderModel'
 import MercadoPagoConfig, { Preference } from 'mercadopago'
 
-const client = new MercadoPagoConfig({ accessToken: process.env.NEXT_PUBLIC_MP_ACCESS_TOKEN! })
-
+const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! })
 export const POST = auth(async (...request: any) => {
   const [req, { params }] = request
   if (!req.auth) {
