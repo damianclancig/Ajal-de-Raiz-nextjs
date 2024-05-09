@@ -1,17 +1,22 @@
 'use client'
-import { PaymentMethodLogo } from '@/components/orders/PaymentMethodLogo'
+import MercadoPagoButton from '@/components/MercadoPagoButton'
 import { ProductsList } from '@/components/products/ProductsList'
+import { PaymentMethodLogo } from '@/components/orders/PaymentMethodLogo'
 import { OrderItem } from '@/lib/models/OrderModel'
 import { formatCurrency, formatDate, optimizeImage } from '@/lib/utils'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 
 const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClientId: string }) => {
+  const paymentId = useSearchParams().get('payment_id')
+  const status = useSearchParams().get('status')
   const { trigger: deliverOrder, isMutating: isDelivering } = useSWRMutation(
     `api/orders/${orderId}`,
     async (url) => {
@@ -48,10 +53,26 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((orderData) => {
+      .then(() => {
         toast.success('El pedido fue pagado correctamente.')
       })
   }
+  function onApproveMercadoPagoOrder() {
+    return fetch(`/api/orders/${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ paymentId }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        toast.success('El pedido fue pagado correctamente.')
+      })
+  }
+  useEffect(() => {
+    if (status) onApproveMercadoPagoOrder()
+  }, [status])
 
   const { data, error } = useSWR(`/api/orders/${orderId}`)
 
@@ -157,6 +178,12 @@ const OrderDetails = ({ orderId, paypalClientId }: { orderId: string; paypalClie
                         onApprove={onApprovePayPalOrder}
                       />
                     </PayPalScriptProvider>
+                  </li>
+                )}
+
+                {!isPaid && paymentMethod === 'MercadoPago' && (
+                  <li>
+                    <MercadoPagoButton orderId={orderId} />
                   </li>
                 )}
                 {session?.user.isAdmin && !isDelivered && (
