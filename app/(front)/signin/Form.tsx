@@ -72,7 +72,7 @@ const Form = () => {
           </div>
         </div>
       )}
-      <div className="max-w-sm mx-auto card my-4 backdrop-blur border-2 border-base-100">
+      <div className="max-w-md mx-auto card my-4 backdrop-blur border-2 border-base-100">
         <div className="card-body">
           <h1 className="card-title">Inicio de sesión</h1>
 
@@ -145,11 +145,16 @@ const Form = () => {
             </div>
           </form>
           <div className="divider"></div>
-
           <div>
-            ¿Necesita una cuenta?{' '}
+            ¿Has olvidado tu contraseña?{' '}
+            <Link className="link" href={`/recover?callbackUrl=${callbackUrl}`}>
+              Restablecer
+            </Link>
+          </div>
+          <div>
+            ¿Aún no tienes una cuenta?{' '}
             <Link className="link" href={`/register?callbackUrl=${callbackUrl}`}>
-              Registate
+              Regístrate
             </Link>
           </div>
         </div>

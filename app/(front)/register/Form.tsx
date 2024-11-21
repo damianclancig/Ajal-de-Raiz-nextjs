@@ -207,7 +207,7 @@ const Form = () => {
               <div className="text-error">{errors.confirmPassword.message}</div>
             )}
           </div>
-          <div className="my-2">
+          <div className="my-4">
             <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full">
               {isSubmitting && <span className="loading loading-spinner"></span>} Registrarme
             </button>
@@ -215,7 +215,7 @@ const Form = () => {
         </form>
         <div className="divider"></div>
         <div>
-          ¿Ya tienés una cuenta?{' '}
+          ¿Ya tenés una cuenta?{' '}
           <Link className="link" href={`/signin?callbackUrl=${callbackUrl}`}>
             Ingresá.
           </Link>
