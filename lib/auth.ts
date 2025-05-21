@@ -13,16 +13,22 @@ export const config = {
       },
       authorize: async (credentials) => {
         await dbConnect()
-        if (credentials == null) return null
-
-        const user = await UserModel.findOne({ email: credentials.email })
-
-        if (user) {
-          const isMatch = await bcrypt.compare(credentials.password as string, user.password)
-          if (isMatch) {
-            return user
-          }
+        if (!credentials || !credentials.email || typeof credentials.password !== 'string') {
           return null
+        }
+        const user = await UserModel.findOne({ email: credentials.email })
+        if (!user) {
+          return null
+        }
+        const isMatch = await user.comparePassword(credentials.password)
+        if (!isMatch) {
+          return null
+        }
+        return {
+          _id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin || false, // Si tienes roles
         }
       },
     }),

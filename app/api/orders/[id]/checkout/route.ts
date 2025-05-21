@@ -13,7 +13,8 @@ export const POST = auth(async (...request: any) => {
       }
     )
   }
-  const URL = `http://localhost:3000/order/${params.id}`
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const URL = `${baseUrl}/order/${params.id}`
   const order = await OrderModel.findById(params.id)
   if (order) {
     const cant = order.items.length

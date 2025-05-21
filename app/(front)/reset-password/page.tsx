@@ -5,6 +5,6 @@ export const metadata: Metadata = {
   title: 'Recuperar contraseña',
 }
 
-export default async function Recover() {
+export default async function RecoverPassword() {
   return <Form />
 }

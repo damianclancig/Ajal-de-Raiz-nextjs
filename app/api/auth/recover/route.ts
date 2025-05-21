@@ -33,7 +33,7 @@ export const POST = async (request: NextRequest) => {
     await user.save()
 
     // Enviar correo con el token de recuperación
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
     const resetUrl = `${baseUrl}/reset-password?token=${token}`
     try {
       await sendEmail({

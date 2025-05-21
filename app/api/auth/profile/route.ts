@@ -12,6 +12,7 @@ export const PUT = auth(async (req) => {
   await dbConnect()
 
   try {
+    console.log(`user: ${user._id}`)
     const dbUser = await UserModel.findById(user._id)
     if (!dbUser) {
       return Response.json(
@@ -23,7 +24,9 @@ export const PUT = auth(async (req) => {
     }
     dbUser.name = name
     dbUser.email = email
-    dbUser.password = password ? await bcrypt.hash(password, 5) : dbUser.password
+    if (typeof password === 'string' && password.trim() !== '') {
+      dbUser.password = password
+    }
     await dbUser.save()
     return Response.json({ message: 'User has been updated' })
   } catch (err: any) {
