@@ -28,11 +28,10 @@ export const POST = async (request: NextRequest) => {
     return Response.json({ message: 'El correo electrónico ya está registrado.' }, { status: 409 })
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10)
   const newUser = new UserModel({
     name,
     email,
-    password: hashedPassword,
+    password: password,
   })
 
   try {
