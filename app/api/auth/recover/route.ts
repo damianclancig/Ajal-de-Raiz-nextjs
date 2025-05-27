@@ -50,6 +50,9 @@ export const POST = async (request: NextRequest) => {
       { status: 200 }
     )
   } catch (error: any) {
-    return Response.json({ message: error.message }, { status: 500 })
+    return Response.json(
+      { message: `Error genérico, contactar al administrador. Error: ${error.message}` },
+      { status: 500 }
+    )
   }
 }

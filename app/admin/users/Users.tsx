@@ -1,5 +1,5 @@
 'use client'
-import { User } from '@/lib/models/UserModel'
+import { IUser } from '@/lib/models/UserModel'
 import { formatId } from '@/lib/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -55,7 +55,7 @@ export default function Users() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user: User) => (
+            {users.map((user: IUser) => (
               <tr key={user._id}>
                 <td>{formatId(user._id)}</td>
                 <td>{user.name}</td>
