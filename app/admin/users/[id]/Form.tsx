@@ -5,9 +5,15 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 import { ValidationRule, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
-import { User } from '@/lib/models/UserModel'
+import { IUser } from '@/lib/models/UserModel'
 import { formatId } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+
+type FormUserData = {
+  name: string
+  email: string
+  isAdmin: boolean
+}
 
 export default function UserEditForm({ userId }: { userId: string }) {
   const { data, error } = useSWR(`/api/admin/users/${userId}`)
@@ -35,7 +41,7 @@ export default function UserEditForm({ userId }: { userId: string }) {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<User>()
+  } = useForm<FormUserData>()
 
   useEffect(() => {
     if (!data) return
@@ -62,7 +68,7 @@ export default function UserEditForm({ userId }: { userId: string }) {
     required,
     pattern,
   }: {
-    id: keyof User
+    id: keyof FormUserData
     name: string
     required?: boolean
     pattern?: ValidationRule<RegExp>

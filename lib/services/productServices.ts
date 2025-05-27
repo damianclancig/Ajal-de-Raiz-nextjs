@@ -8,31 +8,31 @@ const PAGE_SIZE = 10
 const getAll = cache(async () => {
   await dbConnect()
   const products = await ProductModel.find({}).sort({ _id: -1 }).limit(PAGE_SIZE).lean()
-  return products as Product[]
+  return products as unknown as Product[]
 })
 
 const getById = cache(async () => {
   await dbConnect()
   const products = await ProductModel.find({}).sort({ _id: -1 }).limit(4).lean()
-  return products as Product[]
+  return products as unknown as Product[]
 })
 
 const getLatest = cache(async () => {
   await dbConnect()
   const products = await ProductModel.find({}).sort({ _id: -1 }).limit(4).lean()
-  return products as Product[]
+  return products as unknown as Product[]
 })
 
 const getFeatured = cache(async () => {
   await dbConnect()
   const products = await ProductModel.find({ isFeatured: true }).limit(3).lean()
-  return products as Product[]
+  return products as unknown as Product[]
 })
 
 const getBySlug = cache(async (slug: string) => {
   await dbConnect()
   const product = await ProductModel.findOne({ slug }).lean()
-  return product as Product
+  return product as unknown as Product
 })
 
 const getByQuery = cache(
@@ -113,7 +113,7 @@ const getByQuery = cache(
     })
 
     return {
-      products: products as Product[],
+      products: products as unknown as Product[],
       countProducts,
       page,
       pages: Math.ceil(countProducts / PAGE_SIZE),
