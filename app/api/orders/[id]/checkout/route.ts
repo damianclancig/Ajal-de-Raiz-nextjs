@@ -3,7 +3,7 @@ import OrderModel from '@/lib/models/OrderModel'
 import MercadoPagoConfig, { Preference } from 'mercadopago'
 
 const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! })
-const isSandbox = process.env.MP_ENV !== 'production';
+const isSandbox = process.env.APP_ENV !== 'production';
 
 export const POST = auth(async (...request: any) => {
   const [req, { params }] = request
