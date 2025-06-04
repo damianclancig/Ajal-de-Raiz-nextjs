@@ -43,12 +43,14 @@ const Form = () => {
   }, [callbackUrl, params, router, session])
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
-    const { email, password } = form
-    signIn('credentials', {
-      email,
-      password,
-    })
-  }
+  const { email, password } = form
+  await signIn('credentials', {
+    email,
+    password,
+    redirect: false,
+    callbackUrl,
+  })
+}
 
   const [showPass, setShowPass] = useState(false)
 
