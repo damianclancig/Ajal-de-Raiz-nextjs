@@ -2,20 +2,32 @@
 import { Order } from '@/lib/models/OrderModel'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import Link from 'next/link'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import { useState } from 'react'
 
 export default function Orders() {
   const { data: orders, error } = useSWR(`/api/admin/orders`)
   const [showModal, setShowModal] = useState(false)
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
+  const [showEliminados, setShowEliminados] = useState(false)
 
-  // Simula la función de eliminar (debes reemplazarla por tu lógica real)
+  // Eliminar lógico: cambia el estado a "eliminado"
   const handleDelete = async () => {
-    // Aquí va tu lógica para eliminar la orden con selectedOrderId
-    setShowModal(false)
-    setSelectedOrderId(null)
-    // Puedes recargar los datos o mostrar un mensaje de éxito
+    if (!selectedOrderId) return
+    try {
+      await fetch(`/api/admin/orders/${selectedOrderId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'eliminado' }),
+      })
+      setShowModal(false)
+      setSelectedOrderId(null)
+      // Refresca solo los datos de SWR, no la pantalla completa
+      mutate(`/api/admin/orders`)
+    } catch (err) {
+      setShowModal(false)
+      setSelectedOrderId(null)
+    }
   }
 
   if (error) return 'Ha ocurrido un error'
@@ -28,6 +40,27 @@ export default function Orders() {
 
   return (
     <div className="overflow-x-auto">
+      <div className="flex justify-between items-center mb-4">
+        <span className="text-sm text-base-content">
+          Mostrando&nbsp;
+          {
+            orders
+              ? orders.filter((order: Order) =>
+                  showEliminados
+                    ? order.status === 'eliminado'
+                    : order.status !== 'eliminado'
+                ).length
+              : 0
+          }
+          &nbsp;pedidos
+        </span>
+        <button
+          className="btn btn-outline btn-sm"
+          onClick={() => setShowEliminados((v) => !v)}
+        >
+          {showEliminados ? 'Ocultar eliminados' : 'Mostrar eliminados'}
+        </button>
+      </div>
       <table className="table table-zebra bg-base-100">
         <thead>
           <tr>
@@ -41,40 +74,46 @@ export default function Orders() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order: Order) => (
-            <tr key={order._id}>
-              <td>...{order._id.substring(20, 24)}</td>
-              <td>{order.user?.name || 'Usuario eliminado'}</td>
-              <td>{formatDate(order.createdAt)}</td>
-              <td>{formatCurrency(order.totalPrice)}</td>
-              <td>{order.isPaid && order.paidAt ? `${formatDate(order.paidAt)}` : 'Pendiente'}</td>
-              <td>
-                {order.isDelivered && order.deliveredAt
-                  ? `${formatDate(order.deliveredAt)}`
-                  : 'Pendiente'}
-              </td>
-              <td>
-                <Link
-                  href={`/order/${order._id}?backTo=adminOrders`}
-                  passHref
-                  type="button"
-                  className="btn btn-outline btn-sm mr-2"
-                >
-                  Detalles
-                </Link>
-                <button
-                  type="button"
-                  className="btn btn-outline btn-error btn-sm"
-                  onClick={() => {
-                    setSelectedOrderId(order._id)
-                    setShowModal(true)
-                  }}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {orders
+            .filter((order: Order) =>
+              showEliminados ? order.status === 'eliminado' : order.status !== 'eliminado'
+            )
+            .map((order: Order) => (
+              <tr key={order._id}>
+                <td>...{order._id.substring(20, 24)}</td>
+                <td>{order.user?.name || 'Usuario eliminado'}</td>
+                <td>{formatDate(order.createdAt)}</td>
+                <td>{formatCurrency(order.totalPrice)}</td>
+                <td>{order.isPaid && order.paidAt ? `${formatDate(order.paidAt)}` : 'Pendiente'}</td>
+                <td>
+                  {order.isDelivered && order.deliveredAt
+                    ? `${formatDate(order.deliveredAt)}`
+                    : 'Pendiente'}
+                </td>
+                <td>
+                  <Link
+                    href={`/order/${order._id}?backTo=adminOrders`}
+                    passHref
+                    type="button"
+                    className="btn btn-outline btn-sm mr-2"
+                  >
+                    Detalles
+                  </Link>
+                  {!showEliminados && (
+                    <button
+                      type="button"
+                      className="btn btn-outline btn-error btn-sm"
+                      onClick={() => {
+                        setSelectedOrderId(order._id)
+                        setShowModal(true)
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
