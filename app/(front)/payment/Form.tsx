@@ -28,7 +28,7 @@ const Form = () => {
         <div className="card-body">
           <h1 className="card-title">Métodos de pago</h1>
           <form onSubmit={handleSubmit}>
-            {['PayPal', 'MercadoPago', 'Efectivo'].map((payment) => (
+            {[/*'PayPal',*/ 'MercadoPago', 'Efectivo'].map((payment) => (
               <div key={payment}>
                 <label className="label cursor-pointer">
                   <span className="label-text">{payment}</span>

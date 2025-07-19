@@ -5,12 +5,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { useState } from 'react'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 
 export default function Products() {
   const { data: products, error } = useSWR(`/api/admin/products`)
   const router = useRouter()
+  const [showModal, setShowModal] = useState(false)
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
 
   const { trigger: deleteProduct } = useSWRMutation(
     `/api/admin/products`,
@@ -32,6 +35,13 @@ export default function Products() {
           })
     }
   )
+
+  const handleDelete = async () => {
+    if (!selectedProductId) return
+    await deleteProduct({ productId: selectedProductId })
+    setShowModal(false)
+    setSelectedProductId(null)
+  }
 
   if (error) return 'Ha ocurrido un error'
   if (!products)
@@ -55,11 +65,14 @@ export default function Products() {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Imagen</th>
               <th>Nombre</th>
               <th>Precio</th>
               <th>Categoría</th>
               <th>Cantidad</th>
               <th>Rating</th>
+              <th>Destacado</th>
+              <th>Banner</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -82,6 +95,8 @@ export default function Products() {
                 <td>{product.category}</td>
                 <td>{product.countInStock}</td>
                 <td>{product.rating}</td>
+                <td>{product.isFeatured ? 'Sí' : 'No'}</td>
+                <td>{product.banner || '-'}</td>
                 <td>
                   <Link
                     href={`/admin/products/${product._id}`}
@@ -92,7 +107,10 @@ export default function Products() {
                   </Link>
                   &nbsp;
                   <button
-                    onClick={() => deleteProduct({ productId: product._id })}
+                    onClick={() => {
+                      setSelectedProductId(product._id ?? null)
+                      setShowModal(true)
+                    }}
                     type="button"
                     className="btn btn-outline btn-error btn-sm"
                   >
@@ -104,6 +122,30 @@ export default function Products() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal de confirmación */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-base-200 bg-opacity-70 transition-colors"></div>
+          <div className="relative bg-base-100 rounded-lg p-6 shadow-lg">
+            <h2 className="text-lg font-bold mb-4">¿Está seguro que desea eliminar este producto?</h2>
+            <div className="flex justify-evenly w-full mt-4">
+              <button
+                className="btn btn-error"
+                onClick={handleDelete}
+              >
+                Sí
+              </button>
+              <button
+                className="btn"
+                onClick={() => setShowModal(false)}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

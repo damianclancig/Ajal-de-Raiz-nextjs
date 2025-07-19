@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
     countInStock: { type: Number, require: true, default: 0 },
     description: { type: String, require: true },
     isFeatured: { type: Boolean, require: true },
-    banner: String,
+    banner: { type: String, default: '' },
   },
   {
     timestamps: true,
@@ -35,6 +35,7 @@ export type Product = {
   description: string
   category: string
   rating: number
+  isFeatured: boolean
   numReviews: number
   countInStock: number
   color?: []
