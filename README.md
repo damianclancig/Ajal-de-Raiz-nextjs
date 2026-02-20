@@ -1,5 +1,10 @@
 # Ajal-de-Raiz-nextjs
 
+> ⚠️ **REPOSITORIO OBSOLETO** ⚠️
+>
+> Este repositorio está obsoleto y ya no se mantiene activamente.
+> Fue actualizado y reemplazado por: **[ajal-de-raiz-new](https://github.com/damianclancig/ajal-de-raiz-new)**
+
 Tienda de plantas y suculentas.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
